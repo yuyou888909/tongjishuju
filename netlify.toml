@@ -1,0 +1,16 @@
+[build]
+  command = "python3 -m pip install -r requirements.txt && PYTHONPATH=src python3 scripts/build_static_site.py"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+
+[[headers]]
+  for = "/data/*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=300"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=60"

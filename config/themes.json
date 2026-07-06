@@ -1,0 +1,205 @@
+{
+  "report": {
+    "title": "美股映射 A 股早报",
+    "timezone": "Asia/Shanghai",
+    "default_top_n": 5,
+    "default_lookback_days": 420,
+    "signal_threshold_pct": 1.0,
+    "risk_note": "本报告仅以娱乐、公开资料整理和量化研究为主，不构成投资建议。A 股开盘价、流动性、涨跌停、公告停牌和个人仓位风险都可能改变结论。"
+  },
+  "themes": [
+    {
+      "id": "ai_compute_semis",
+      "name": "AI算力 / 半导体 / 光模块",
+      "logic": "美股 AI 芯片、存储、半导体设备和云资本开支上涨时，A 股常见映射是国产设备、AI 芯片、服务器、PCB、光模块和液冷。",
+      "us_tickers": [
+        {"ticker": "NVDA", "name": "英伟达", "weight": 2.0},
+        {"ticker": "AMD", "name": "AMD", "weight": 1.4},
+        {"ticker": "AVGO", "name": "博通", "weight": 1.4},
+        {"ticker": "MU", "name": "美光科技", "weight": 1.2},
+        {"ticker": "MRVL", "name": "Marvell", "weight": 1.1},
+        {"ticker": "ARM", "name": "Arm", "weight": 1.0},
+        {"ticker": "ASML", "name": "阿斯麦", "weight": 1.0},
+        {"ticker": "AMAT", "name": "应用材料", "weight": 1.0},
+        {"ticker": "LRCX", "name": "泛林集团", "weight": 1.0}
+      ],
+      "candidates": [
+        {"code": "300308", "name": "中际旭创", "industry": "光模块/CPO", "rationale": "高速光模块海外 AI 资本开支弹性大，和英伟达链条相关度高。"},
+        {"code": "300502", "name": "新易盛", "industry": "光模块/CPO", "rationale": "800G/1.6T 光模块受 AI 数据中心需求拉动。"},
+        {"code": "300394", "name": "天孚通信", "industry": "光器件", "rationale": "光器件供给弹性强，常随美股 AI 光通信链条扩散。"},
+        {"code": "002463", "name": "沪电股份", "industry": "PCB/服务器", "rationale": "AI 服务器 PCB 与高速交换机需求映射。"},
+        {"code": "601138", "name": "工业富联", "industry": "AI服务器/制造", "rationale": "AI 服务器制造和云厂商资本开支相关。"},
+        {"code": "000977", "name": "浪潮信息", "industry": "服务器", "rationale": "国产服务器龙头，受算力招标和国产 AI 需求影响。"},
+        {"code": "688041", "name": "海光信息", "industry": "国产 CPU/GPU", "rationale": "国产算力替代逻辑，常受 AI 芯片情绪带动。"},
+        {"code": "688256", "name": "寒武纪", "industry": "AI芯片", "rationale": "AI 芯片高弹性标的，波动和估值风险也较高。"},
+        {"code": "002371", "name": "北方华创", "industry": "半导体设备", "rationale": "国产半导体设备龙头，映射美股设备链情绪。"},
+        {"code": "688012", "name": "中微公司", "industry": "半导体设备", "rationale": "刻蚀设备龙头，受先进制程和国产替代预期影响。"},
+        {"code": "603986", "name": "兆易创新", "industry": "存储/MCU", "rationale": "存储周期和美光等美股存储标的相关。"}
+      ]
+    },
+    {
+      "id": "ev_battery_storage",
+      "name": "新能源车 / 锂电 / 储能",
+      "logic": "特斯拉、美股新能源车、锂资源和储能链走强时，A 股映射到整车、动力电池、锂资源、材料和储能逆变器。",
+      "us_tickers": [
+        {"ticker": "TSLA", "name": "特斯拉", "weight": 2.0},
+        {"ticker": "RIVN", "name": "Rivian", "weight": 1.0},
+        {"ticker": "NIO", "name": "蔚来", "weight": 1.0},
+        {"ticker": "XPEV", "name": "小鹏汽车", "weight": 1.0},
+        {"ticker": "LI", "name": "理想汽车", "weight": 1.0},
+        {"ticker": "ALB", "name": "雅保", "weight": 1.0},
+        {"ticker": "ENPH", "name": "Enphase", "weight": 0.8}
+      ],
+      "candidates": [
+        {"code": "002594", "name": "比亚迪", "industry": "新能源汽车", "rationale": "整车与电池一体化，新能源车风险偏好核心映射。"},
+        {"code": "300750", "name": "宁德时代", "industry": "动力电池/储能", "rationale": "全球动力电池龙头，受储能和电动车需求预期影响。"},
+        {"code": "300014", "name": "亿纬锂能", "industry": "锂电池", "rationale": "动力与储能电池弹性标的。"},
+        {"code": "002466", "name": "天齐锂业", "industry": "锂资源", "rationale": "锂价和新能源需求预期弹性较高。"},
+        {"code": "002460", "name": "赣锋锂业", "industry": "锂资源", "rationale": "锂资源与电池材料一体化。"},
+        {"code": "002709", "name": "天赐材料", "industry": "电解液", "rationale": "锂电材料景气度映射。"},
+        {"code": "603659", "name": "璞泰来", "industry": "负极/隔膜设备", "rationale": "电池材料链条反弹候选。"},
+        {"code": "002812", "name": "恩捷股份", "industry": "锂电隔膜", "rationale": "隔膜龙头，受电池产业链价格和需求修复影响。"},
+        {"code": "300274", "name": "阳光电源", "industry": "储能/逆变器", "rationale": "储能和光伏逆变器龙头，映射海外储能需求。"}
+      ]
+    },
+    {
+      "id": "innovative_drugs_medtech",
+      "name": "创新药 / 医疗器械 / CXO",
+      "logic": "美股创新药、减肥药、器械和生物科技上涨时，A 股通常映射创新药、医疗器械、CXO 和高端设备。",
+      "us_tickers": [
+        {"ticker": "LLY", "name": "礼来", "weight": 1.6},
+        {"ticker": "NVO", "name": "诺和诺德", "weight": 1.5},
+        {"ticker": "REGN", "name": "Regeneron", "weight": 1.0},
+        {"ticker": "VRTX", "name": "Vertex", "weight": 1.0},
+        {"ticker": "MRNA", "name": "Moderna", "weight": 0.8},
+        {"ticker": "TMO", "name": "赛默飞", "weight": 0.8},
+        {"ticker": "ISRG", "name": "直觉外科", "weight": 0.8}
+      ],
+      "candidates": [
+        {"code": "600276", "name": "恒瑞医药", "industry": "创新药", "rationale": "创新药龙头，临床与出海进展常为催化。"},
+        {"code": "688235", "name": "百济神州-U", "industry": "创新药", "rationale": "全球化创新药管线，和海外医药情绪相关。"},
+        {"code": "603259", "name": "药明康德", "industry": "CXO", "rationale": "CXO 龙头，受海外医药投融资和政策扰动影响。"},
+        {"code": "300347", "name": "泰格医药", "industry": "临床CRO", "rationale": "临床 CRO 和创新药投融资周期相关。"},
+        {"code": "300760", "name": "迈瑞医疗", "industry": "医疗器械", "rationale": "医疗器械龙头，防御与成长兼具。"},
+        {"code": "688271", "name": "联影医疗", "industry": "高端医疗设备", "rationale": "国产高端影像设备龙头。"},
+        {"code": "688180", "name": "君实生物-U", "industry": "创新药", "rationale": "创新药高弹性标的，注意研发和商业化风险。"},
+        {"code": "300015", "name": "爱尔眼科", "industry": "医疗服务", "rationale": "医疗服务龙头，受消费医疗风险偏好影响。"}
+      ]
+    },
+    {
+      "id": "consumer_ecommerce_travel",
+      "name": "消费 / 跨境电商 / 旅游",
+      "logic": "美股中概消费、平台电商、旅游和全球消费龙头上涨时，A 股映射到免税、白酒、家电、跨境电商和游戏传媒。",
+      "us_tickers": [
+        {"ticker": "BABA", "name": "阿里巴巴", "weight": 1.5},
+        {"ticker": "PDD", "name": "拼多多", "weight": 1.5},
+        {"ticker": "JD", "name": "京东", "weight": 1.0},
+        {"ticker": "TCOM", "name": "携程", "weight": 1.0},
+        {"ticker": "AMZN", "name": "亚马逊", "weight": 1.0},
+        {"ticker": "SBUX", "name": "星巴克", "weight": 0.6},
+        {"ticker": "NKE", "name": "耐克", "weight": 0.6}
+      ],
+      "candidates": [
+        {"code": "601888", "name": "中国中免", "industry": "免税/旅游零售", "rationale": "旅游和消费复苏高弹性标的。"},
+        {"code": "600519", "name": "贵州茅台", "industry": "白酒", "rationale": "消费核心资产，常作为情绪稳定器。"},
+        {"code": "000858", "name": "五粮液", "industry": "白酒", "rationale": "白酒龙头，受消费预期和估值修复影响。"},
+        {"code": "300866", "name": "安克创新", "industry": "跨境消费电子", "rationale": "跨境品牌和亚马逊平台需求映射。"},
+        {"code": "600690", "name": "海尔智家", "industry": "家电", "rationale": "全球家电龙头，受海外消费和汇率影响。"},
+        {"code": "000333", "name": "美的集团", "industry": "家电/机器人", "rationale": "家电核心资产，兼具制造升级逻辑。"},
+        {"code": "600887", "name": "伊利股份", "industry": "乳制品", "rationale": "必选消费龙头，防御属性较强。"},
+        {"code": "002555", "name": "三七互娱", "industry": "游戏", "rationale": "游戏传媒弹性，受平台和版号情绪影响。"}
+      ]
+    },
+    {
+      "id": "commodities_energy_gold",
+      "name": "有色 / 能源 / 黄金",
+      "logic": "美股能源、铜、铝、黄金矿业和大宗商品链上涨时，A 股映射到铜、金、煤炭、油气和小金属。",
+      "us_tickers": [
+        {"ticker": "XOM", "name": "埃克森美孚", "weight": 1.2},
+        {"ticker": "CVX", "name": "雪佛龙", "weight": 1.0},
+        {"ticker": "OXY", "name": "西方石油", "weight": 0.8},
+        {"ticker": "FCX", "name": "自由港麦克莫兰", "weight": 1.3},
+        {"ticker": "SCCO", "name": "南方铜业", "weight": 1.0},
+        {"ticker": "NEM", "name": "纽蒙特", "weight": 1.0},
+        {"ticker": "AA", "name": "美国铝业", "weight": 0.8}
+      ],
+      "candidates": [
+        {"code": "601899", "name": "紫金矿业", "industry": "铜/金/锂", "rationale": "全球矿业龙头，铜金价格映射强。"},
+        {"code": "600547", "name": "山东黄金", "industry": "黄金", "rationale": "金价上涨和避险情绪映射。"},
+        {"code": "600489", "name": "中金黄金", "industry": "黄金", "rationale": "黄金板块弹性候选。"},
+        {"code": "603993", "name": "洛阳钼业", "industry": "铜/钴/钼", "rationale": "铜钴资源弹性标的。"},
+        {"code": "600362", "name": "江西铜业", "industry": "铜", "rationale": "铜价上涨受益标的。"},
+        {"code": "000878", "name": "云南铜业", "industry": "铜", "rationale": "铜链弹性更高。"},
+        {"code": "601088", "name": "中国神华", "industry": "煤炭/电力", "rationale": "高股息能源龙头，防御属性强。"},
+        {"code": "600028", "name": "中国石化", "industry": "油气化工", "rationale": "油价和高股息逻辑映射。"},
+        {"code": "601857", "name": "中国石油", "industry": "油气", "rationale": "油价和央企高股息映射。"}
+      ]
+    },
+    {
+      "id": "finance_brokerage_fintech",
+      "name": "券商 / 金融科技 / 数字金融",
+      "logic": "美股券商、交易所、金融科技和风险资产上涨时，A 股映射到券商、财富管理、金融 IT 和交易活跃度。",
+      "us_tickers": [
+        {"ticker": "MS", "name": "摩根士丹利", "weight": 1.0},
+        {"ticker": "GS", "name": "高盛", "weight": 1.0},
+        {"ticker": "SCHW", "name": "嘉信理财", "weight": 1.0},
+        {"ticker": "HOOD", "name": "Robinhood", "weight": 1.2},
+        {"ticker": "COIN", "name": "Coinbase", "weight": 0.8},
+        {"ticker": "ICE", "name": "洲际交易所", "weight": 0.8}
+      ],
+      "candidates": [
+        {"code": "300059", "name": "东方财富", "industry": "互联网券商/基金销售", "rationale": "成交活跃和风险偏好核心弹性标的。"},
+        {"code": "600030", "name": "中信证券", "industry": "券商", "rationale": "券商龙头，受市场成交与政策预期影响。"},
+        {"code": "601688", "name": "华泰证券", "industry": "券商", "rationale": "财富管理和机构业务弹性。"},
+        {"code": "000776", "name": "广发证券", "industry": "券商", "rationale": "券商 beta 候选。"},
+        {"code": "600570", "name": "恒生电子", "industry": "金融IT", "rationale": "金融 IT 和交易系统升级映射。"},
+        {"code": "601995", "name": "中金公司", "industry": "投行/财富管理", "rationale": "投行业务和风险偏好弹性。"},
+        {"code": "600958", "name": "东方证券", "industry": "券商", "rationale": "权益市场活跃度映射。"}
+      ]
+    },
+    {
+      "id": "robotics_industrial_auto",
+      "name": "机器人 / 工业自动化",
+      "logic": "美股自动化、机器人、工业软件和人形机器人链上涨时，A 股映射到伺服、减速器、执行器、传感器和工业控制。",
+      "us_tickers": [
+        {"ticker": "TER", "name": "泰瑞达", "weight": 1.0},
+        {"ticker": "ROK", "name": "罗克韦尔自动化", "weight": 1.0},
+        {"ticker": "ISRG", "name": "直觉外科", "weight": 0.8},
+        {"ticker": "TSLA", "name": "特斯拉", "weight": 1.2},
+        {"ticker": "SYM", "name": "Symbotic", "weight": 0.8},
+        {"ticker": "PATH", "name": "UiPath", "weight": 0.6}
+      ],
+      "candidates": [
+        {"code": "300124", "name": "汇川技术", "industry": "工控/伺服", "rationale": "工控自动化龙头，机器人伺服链核心标的。"},
+        {"code": "002747", "name": "埃斯顿", "industry": "工业机器人", "rationale": "国产工业机器人整机和控制系统。"},
+        {"code": "688017", "name": "绿的谐波", "industry": "精密减速器", "rationale": "谐波减速器，人形机器人关键部件。"},
+        {"code": "002050", "name": "三花智控", "industry": "热管理/执行器", "rationale": "汽车热管理与机器人执行器预期。"},
+        {"code": "603728", "name": "鸣志电器", "industry": "电机/控制", "rationale": "步进电机和控制系统弹性。"},
+        {"code": "300024", "name": "机器人", "industry": "机器人系统集成", "rationale": "机器人主题情绪高弹性。"},
+        {"code": "688322", "name": "奥比中光", "industry": "3D视觉", "rationale": "机器人视觉传感器链条。"}
+      ]
+    },
+    {
+      "id": "aerospace_defense",
+      "name": "航空航天 / 军工",
+      "logic": "美股航空航天、防务、商用飞机和卫星链上涨时，A 股映射到主机厂、发动机、航空材料和卫星互联网。",
+      "us_tickers": [
+        {"ticker": "LMT", "name": "洛克希德马丁", "weight": 1.0},
+        {"ticker": "RTX", "name": "RTX", "weight": 1.0},
+        {"ticker": "NOC", "name": "诺斯罗普格鲁曼", "weight": 1.0},
+        {"ticker": "BA", "name": "波音", "weight": 0.9},
+        {"ticker": "GE", "name": "GE Aerospace", "weight": 0.9},
+        {"ticker": "RKLB", "name": "Rocket Lab", "weight": 0.8}
+      ],
+      "candidates": [
+        {"code": "600760", "name": "中航沈飞", "industry": "军机主机厂", "rationale": "航空主机厂核心标的。"},
+        {"code": "000768", "name": "中航西飞", "industry": "大飞机/军机", "rationale": "大飞机和军机产业链映射。"},
+        {"code": "600893", "name": "航发动力", "industry": "航空发动机", "rationale": "航空发动机长期国产替代逻辑。"},
+        {"code": "600879", "name": "航天电子", "industry": "航天电子", "rationale": "卫星与航天电子链条。"},
+        {"code": "688297", "name": "中无人机", "industry": "无人机", "rationale": "无人机主题弹性。"},
+        {"code": "600372", "name": "中航机载", "industry": "航空电子", "rationale": "航空电子和机载系统。"},
+        {"code": "002179", "name": "中航光电", "industry": "军工连接器", "rationale": "军工电子元器件龙头。"}
+      ]
+    }
+  ]
+}

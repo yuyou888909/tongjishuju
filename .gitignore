@@ -1,0 +1,30 @@
+.DS_Store
+.env
+.venv/
+.venv*/
+**/.venv*/
+node_modules/
+__pycache__/
+*.pyc
+
+# Runtime caches and generated market reports
+.cache*/
+.playwright-cli/
+dist/
+logs/
+output/
+reports/
+reports-*/
+reports-web/
+
+# Local Netlify state
+.netlify/
+
+# Video renders and private voice/audio assets
+*.mp4
+*.mov
+*.webm
+video/**/renders/
+video/**/snapshots/
+video/**/assets/*.wav
+video/**/assets/human-lines/
