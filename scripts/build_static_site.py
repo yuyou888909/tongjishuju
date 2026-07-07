@@ -89,12 +89,22 @@ def main() -> int:
         "/data/*.json\n  Cache-Control: public, max-age=300\n/*.html\n  Cache-Control: public, max-age=60\n",
         encoding="utf-8",
     )
+    if os.environ.get("CATDESK_INLINE_CSS", "").lower() in {"1", "true", "yes"}:
+        inline_css(DIST / "index.html", DIST / "styles.css")
     print(f"Built static site: {DIST}")
     return 0
 
 
 def write_json(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def inline_css(index_path: Path, css_path: Path) -> None:
+    html = index_path.read_text(encoding="utf-8")
+    css = css_path.read_text(encoding="utf-8")
+    link = '    <link rel="stylesheet" href="styles.css?v=20260705-asia1" />'
+    style = f"    <style>\n{css}\n    </style>\n{link}"
+    index_path.write_text(html.replace(link, style), encoding="utf-8")
 
 
 if __name__ == "__main__":

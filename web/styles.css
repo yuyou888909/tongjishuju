@@ -507,7 +507,7 @@ h2 {
   top: 7px;
   width: 22px;
   height: 22px;
-  background: url("/assets/paw-stamp.png") center / contain no-repeat;
+  background: url("assets/paw-stamp.png") center / contain no-repeat;
   opacity: 0.38;
   transform: rotate(10deg);
 }
