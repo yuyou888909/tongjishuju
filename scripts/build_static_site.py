@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from datetime import date
 import json
+import os
 from pathlib import Path
 import shutil
 
@@ -9,7 +10,7 @@ from ashare_us_catalyst.asia_markets import load_asia_markets_config, screen_asi
 from ashare_us_catalyst.backtest import run_backtest
 from ashare_us_catalyst.config import load_config
 from ashare_us_catalyst.multibagger import discover_multibaggers, load_multibagger_config
-from ashare_us_catalyst.providers import AkshareProvider
+from ashare_us_catalyst.providers import AkshareProvider, SampleProvider
 from ashare_us_catalyst.report import render_markdown
 from ashare_us_catalyst.scoring import rank_report
 from ashare_us_catalyst.us_quality import load_us_quality_config, screen_us_quality
@@ -26,7 +27,8 @@ def main() -> int:
     data_dir = DIST / "data"
     data_dir.mkdir(parents=True, exist_ok=True)
 
-    provider = AkshareProvider(ROOT / ".cache-static", use_cache=True)
+    sample_data = os.environ.get("CATDESK_SAMPLE_DATA", "").lower() in {"1", "true", "yes"}
+    provider = SampleProvider() if sample_data else AkshareProvider(ROOT / ".cache-static", use_cache=True)
     report_date = date.today()
 
     app_config = load_config(ROOT / "config/themes.json")

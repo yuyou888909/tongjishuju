@@ -197,17 +197,21 @@ async function api(url) {
 }
 
 function staticFallbackFor(url) {
-  if (url.startsWith("/api/report")) return "/data/report.json";
-  if (url.startsWith("/api/us-quality")) return "/data/us-quality.json";
-  if (url.startsWith("/api/asia-markets")) return "/data/asia-markets.json";
-  if (url.startsWith("/api/multibagger")) return "/data/multibagger.json";
-  if (url.startsWith("/api/backtest")) return "/data/backtest.json";
-  if (url.startsWith("/api/history")) return "/data/history.json";
+  if (url.startsWith("/api/report")) return staticAsset("data/report.json");
+  if (url.startsWith("/api/us-quality")) return staticAsset("data/us-quality.json");
+  if (url.startsWith("/api/asia-markets")) return staticAsset("data/asia-markets.json");
+  if (url.startsWith("/api/multibagger")) return staticAsset("data/multibagger.json");
+  if (url.startsWith("/api/backtest")) return staticAsset("data/backtest.json");
+  if (url.startsWith("/api/history")) return staticAsset("data/history.json");
   return "";
 }
 
 function isStaticHost() {
-  return location.hostname.endsWith(".netlify.app") || location.protocol === "file:";
+  return location.hostname.endsWith(".netlify.app") || location.hostname.endsWith(".github.io") || location.protocol === "file:";
+}
+
+function staticAsset(path) {
+  return new URL(path.replace(/^\/+/, ""), document.baseURI).href;
 }
 
 function renderSummary(ashare, us) {
