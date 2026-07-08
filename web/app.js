@@ -32,8 +32,17 @@ function init() {
     el.innerHTML = icons[el.dataset.icon] || "";
   });
   $("#reportDate").value = localDateInputValue(new Date());
+  configureStaticMode();
   bindEvents();
   loadAll();
+}
+
+function configureStaticMode() {
+  if (!isGithubPages()) return;
+  state.sample = true;
+  $("#sampleMode").textContent = "静态";
+  $("#liveMode").disabled = true;
+  $("#liveMode").title = "GitHub Pages 备用域名只提供静态快照，不支持实时行情接口。";
 }
 
 function bindEvents() {
@@ -72,6 +81,10 @@ function switchView(view) {
 }
 
 function setSampleMode(sample) {
+  if (isGithubPages() && !sample) {
+    setStatus("GitHub Pages 备用域名只提供静态快照，不支持实时行情接口。");
+    return;
+  }
   state.sample = sample;
   $("#sampleMode").classList.toggle("selected", sample);
   $("#liveMode").classList.toggle("selected", !sample);
@@ -101,7 +114,7 @@ async function loadAll() {
     renderDailyReport();
     loadHistory();
     await refreshAshareQuotes();
-    setStatus(`已更新 ${new Date().toLocaleTimeString("zh-CN", { hour12: false })}`);
+    setStatus(reportStatusText(ashare.result));
   } catch (error) {
     setStatus(`加载失败：${error.message}`);
   } finally {
@@ -210,8 +223,21 @@ function isStaticHost() {
   return location.hostname.endsWith(".netlify.app") || location.hostname.endsWith(".github.io") || location.protocol === "file:";
 }
 
+function isGithubPages() {
+  return location.hostname.endsWith(".github.io");
+}
+
 function staticAsset(path) {
   return new URL(path.replace(/^\/+/, ""), document.baseURI).href;
+}
+
+function reportStatusText(result) {
+  const mode = isGithubPages() ? "静态快照" : state.sample ? "样例数据" : "实时数据";
+  const dataDate = result?.date || "-";
+  const generated = result?.generated_at ? new Date(result.generated_at).toLocaleString("zh-CN", { hour12: false }) : "-";
+  const selected = $("#reportDate").value;
+  const mismatch = selected && dataDate !== selected ? ` · 当前选择 ${selected}` : "";
+  return `${mode} · 数据日期 ${dataDate} · 生成 ${generated}${mismatch}`;
 }
 
 function renderSummary(ashare, us) {

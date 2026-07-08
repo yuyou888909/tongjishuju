@@ -40,7 +40,7 @@ def render_markdown(result: dict[str, Any], risk_note: str) -> str:
             lines.append(
                 f"| {idx} | {f['code']} | {f['name']} | {analyst.get('rating', 'Neutral')} | "
                 f"{analyst.get('conviction', '-')} | {analyst.get('risk_gate', 'Watch')} | {f['industry']} | {f['market_cap']} | "
-                f"{f['day_pct']} | {f['score']} | {_cell(analyst.get('entry_plan', f['rationale']))} | "
+                f"{_change_cell(f)} | {f['score']} | {_cell(analyst.get('entry_plan', f['rationale']))} | "
                 f"{_cell(f['rationale'])} | {_cell(f['news'])} |"
             )
         lines.append("")
@@ -90,3 +90,9 @@ def write_outputs(result: dict[str, Any], markdown: str, output_dir: Union[str, 
 
 def _cell(value: str) -> str:
     return str(value).replace("|", "/").replace("\n", " ").strip()
+
+
+def _change_cell(formatted: dict[str, Any]) -> str:
+    meta = " · ".join(str(part) for part in [formatted.get("day_pct_source"), formatted.get("day_pct_asof")] if part)
+    value = formatted.get("day_pct", "未知")
+    return _cell(f"{value}（{meta}）" if meta else value)

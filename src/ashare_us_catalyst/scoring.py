@@ -545,6 +545,8 @@ def pct_source_label(value: Any) -> str:
         return "新浪实时"
     if value == "snapshot":
         return "实时快照"
+    if value == "not_open":
+        return "未开盘/无成交"
     if value == "latest_kline":
         return "最近K线"
     return ""

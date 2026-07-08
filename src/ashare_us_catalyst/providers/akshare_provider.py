@@ -413,13 +413,14 @@ class AkshareProvider:
     def _eastmoney_a_snapshot(self, code: str) -> dict[str, Any]:
         payload = _curl_json(
             "https://push2.eastmoney.com/api/qt/stock/get",
-            params={"secid": _eastmoney_secid(code), "fields": "f57,f58,f43,f170,f116,f117,f168,f10,f9,f23"},
+            params={"secid": _eastmoney_secid(code), "fields": "f57,f58,f43,f170,f116,f117,f168,f10,f9,f23,f86"},
             timeout=self.timeout,
         )
         data = (payload or {}).get("data") or {}
         if not data:
             return {}
-        return {
+        quote_time = _eastmoney_quote_datetime(data.get("f86"))
+        return _sanitize_a_snapshot_quote({
             "code": str(data.get("f57") or code).zfill(6),
             "name": data.get("f58") or "",
             "price": _scaled(data.get("f43"), 100),
@@ -431,8 +432,9 @@ class AkshareProvider:
             "pe": _scaled(data.get("f9"), 100),
             "pb": _scaled(data.get("f23"), 100),
             "pct_source": "eastmoney_snapshot",
-            "pct_date": date.today().isoformat(),
-        }
+            "pct_date": quote_time.date().isoformat() if quote_time else "",
+            "snapshot_time": quote_time.strftime("%H:%M:%S") if quote_time else "",
+        })
 
     def _sina_a_snapshot(self, code: str) -> dict[str, Any]:
         market_code = f"{'sh' if str(code).startswith(('5', '6', '9')) else 'sz'}{str(code).zfill(6)}"
@@ -452,7 +454,7 @@ class AkshareProvider:
         prev_close = to_number(parts[2])
         price = to_number(parts[3])
         pct = ((price / prev_close) - 1) * 100 if price is not None and prev_close else None
-        return {
+        return _sanitize_a_snapshot_quote({
             "code": str(code).zfill(6),
             "name": parts[0],
             "open": to_number(parts[1]),
@@ -466,7 +468,7 @@ class AkshareProvider:
             "pct_source": "sina_snapshot",
             "pct_date": parts[30] if len(parts) > 30 and parts[30] else date.today().isoformat(),
             "snapshot_time": parts[31] if len(parts) > 31 else "",
-        }
+        })
 
     def _eastmoney_a_history(self, code: str, start: date, end: date) -> pd.DataFrame:
         payload = _curl_json(
@@ -558,6 +560,36 @@ def _first_value(row: pd.Series, names: list[str], default: Any) -> Any:
         if key is not None and pd.notna(row[key]):
             return row[key]
     return default
+
+
+def _sanitize_a_snapshot_quote(data: dict[str, Any]) -> dict[str, Any]:
+    """Treat zero-price pre-open quotes as unavailable, not as -100% moves."""
+    price = to_number(data.get("price"))
+    pct = to_number(data.get("pct"))
+    if (price is not None and price <= 0) or (pct is not None and pct <= -99.9):
+        data["price"] = None
+        data["pct"] = None
+        data["pct_source"] = "not_open"
+    return data
+
+
+def _eastmoney_quote_datetime(value: Any) -> Optional[datetime]:
+    text = str(value or "").strip()
+    if re.fullmatch(r"20\d{12}", text):
+        return datetime.strptime(text, "%Y%m%d%H%M%S")
+    if re.fullmatch(r"20\d{6}", text):
+        return datetime.strptime(text, "%Y%m%d")
+    num = to_number(value)
+    if num is None:
+        return None
+    try:
+        if num > 10_000_000_000:
+            num = num / 1000
+        if num > 1_000_000_000:
+            return datetime.fromtimestamp(num)
+    except (OSError, OverflowError, ValueError):
+        return None
+    return None
 
 
 def _eastmoney_secid(code: str) -> str:

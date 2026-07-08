@@ -10,6 +10,7 @@ from ashare_us_catalyst.backtest import run_backtest
 from ashare_us_catalyst.config import Candidate, Theme, UsTicker
 from ashare_us_catalyst.multibagger import EarlyUsCandidate, discover_multibaggers
 from ashare_us_catalyst.providers.sample_provider import SampleProvider
+from ashare_us_catalyst.providers.akshare_provider import _eastmoney_quote_datetime, _sanitize_a_snapshot_quote
 from ashare_us_catalyst.scoring import enrich_snapshot_from_history, format_candidate, historical_stats, score_news
 from ashare_us_catalyst.us_quality import UsQualityCandidate
 from ashare_us_catalyst.us_quality import technical_metrics
@@ -79,6 +80,26 @@ class ScoringTests(unittest.TestCase):
         self.assertEqual(formatted["day_pct_source"], "新浪实时")
         self.assertEqual(formatted["day_pct_asof"], "2026-07-03 11:30:00")
         self.assertEqual(formatted["price"], "123.45")
+
+    def test_zero_price_snapshot_is_not_negative_one_hundred_percent(self) -> None:
+        snapshot = _sanitize_a_snapshot_quote(
+            {
+                "code": "300750",
+                "name": "宁德时代",
+                "prev_close": 200.0,
+                "price": 0.0,
+                "pct": -100.0,
+                "pct_source": "sina_snapshot",
+            }
+        )
+        self.assertIsNone(snapshot["price"])
+        self.assertIsNone(snapshot["pct"])
+        self.assertEqual(snapshot["pct_source"], "not_open")
+
+    def test_eastmoney_quote_time_parses_compact_timestamp(self) -> None:
+        parsed = _eastmoney_quote_datetime("20260709150304")
+        self.assertIsNotNone(parsed)
+        self.assertEqual(parsed.strftime("%Y-%m-%d %H:%M:%S"), "2026-07-09 15:03:04")
 
     def test_us_quality_technical_metrics(self) -> None:
         hist = pd.DataFrame(
