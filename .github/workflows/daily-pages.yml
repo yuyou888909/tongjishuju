@@ -22,6 +22,7 @@ concurrency:
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     env:
       TZ: Asia/Shanghai
       PYTHONPATH: src
@@ -42,8 +43,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Build static Pages site
-        run: python scripts/build_static_site.py
+      - name: Build static Pages shell
+        run: CATDESK_SAMPLE_DATA=1 python scripts/build_static_site.py
+
+      - name: Build and inject daily report
+        run: |
+          report_date="${CATDESK_REPORT_DATE:-$(date +%F)}"
+          mkdir -p reports-web
+          if ! timeout 10m python -m ashare_us_catalyst.cli --date "$report_date" --top 5 --max-themes 6 --output reports-web --cache .cache-static; then
+            echo "::warning::Full daily report build failed or timed out; retrying without news."
+            timeout 5m python -m ashare_us_catalyst.cli --date "$report_date" --top 5 --max-themes 6 --output reports-web --cache .cache-static --skip-news
+          fi
+          python scripts/inject_report_into_dist.py --report-date "$report_date" --reports-dir reports-web
 
       - name: Publish GitHub Pages branch
         uses: peaceiris/actions-gh-pages@v4
