@@ -1,0 +1,56 @@
+name: Daily CatDesk 9 Pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      report_date:
+        description: "Optional report date, YYYY-MM-DD"
+        required: false
+        type: string
+  schedule:
+    # 09:05 Asia/Shanghai. A-shares are not open yet, so the report shows
+    # the latest available quote timestamp instead of inventing same-day moves.
+    - cron: "5 1 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-catdesk-pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Shanghai
+      PYTHONPATH: src
+      CATDESK_INLINE_CSS: "1"
+      CATDESK_REPORT_DATE: ${{ github.event.inputs.report_date || '' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build static Pages site
+        run: python scripts/build_static_site.py
+
+      - name: Publish GitHub Pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./dist
+          force_orphan: true
+          enable_jekyll: false
+          commit_message: "Daily CatDesk 9 report"

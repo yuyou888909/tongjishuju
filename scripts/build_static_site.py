@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
 import json
 import os
 from pathlib import Path
@@ -29,7 +29,7 @@ def main() -> int:
 
     sample_data = os.environ.get("CATDESK_SAMPLE_DATA", "").lower() in {"1", "true", "yes"}
     provider = SampleProvider() if sample_data else AkshareProvider(ROOT / ".cache-static", use_cache=True)
-    report_date = date.today()
+    report_date = report_date_from_env()
 
     app_config = load_config(ROOT / "config/themes.json")
     report = rank_report(
@@ -97,6 +97,13 @@ def main() -> int:
 
 def write_json(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def report_date_from_env() -> date:
+    value = os.environ.get("CATDESK_REPORT_DATE", "").strip()
+    if not value:
+        return date.today()
+    return datetime.strptime(value, "%Y-%m-%d").date()
 
 
 def inline_css(index_path: Path, css_path: Path) -> None:
